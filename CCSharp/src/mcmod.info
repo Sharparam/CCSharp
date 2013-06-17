@@ -1,0 +1,21 @@
+{
+  "modinfoversion": 2,
+  "modlist": [{
+    "modid": "CCSharp",
+    "name": "CCSharp",
+    "description": "Adds various components to ComputerCraft.",
+    "version": "0.0.0",
+    "mcversion": "1.4.7",
+    "url": "",
+    "updateUrl": "",
+    "authors": [ "Sharparam" ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "parent": "",
+    "requiredMods": [ "Forge" ],
+    "dependencies": [],
+    "dependants": [],
+    "useDependencyInformation": "true"
+  }]
+}
