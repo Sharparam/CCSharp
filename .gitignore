@@ -16,6 +16,7 @@
 
 # MCP/Forge files
 /forge/
+/builds/
 
 # Version file updater
 /CCSharpVersionUpdater.exe
