@@ -73,6 +73,7 @@ public class CCSharp {
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
         config.getBlock("cardReader.id", 2050);
+        config.save();
     }
 
     @Mod.Init
