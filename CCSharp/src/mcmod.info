@@ -12,9 +12,9 @@
     "credits": "",
     "logoFile": "",
     "screenshots": [],
-    "parent": "",
-    "requiredMods": [ "Forge" ],
-    "dependencies": [],
+    "parent": "ComputerCraft",
+    "requiredMods": [ "Forge", "ComputerCraft" ],
+    "dependencies": [ "ComputerCraft" ],
     "dependants": [],
     "useDependencyInformation": "true"
   }]

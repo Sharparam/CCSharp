@@ -24,6 +24,7 @@
 
 package com.sharparam.minecraft.ccsharp.client;
 
+import com.sharparam.minecraft.ccsharp.BaseProxy;
 import com.sharparam.minecraft.ccsharp.IProxy;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -32,11 +33,6 @@ import net.minecraftforge.client.MinecraftForgeClient;
  * Date: 2013-06-17
  * Time: 19:40
  */
-public class ClientProxy implements IProxy {
-    private static final String BLOCK_TEXTURE = "/com/sharparam/minecraft/ccsharp/block.png";
+public class ClientProxy extends BaseProxy {
 
-    @Override
-    public void registerRenderers() {
-        MinecraftForgeClient.preloadTexture(BLOCK_TEXTURE);
-    }
 }

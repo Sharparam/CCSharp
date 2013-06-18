@@ -1,5 +1,5 @@
 /*
- * ServerProxy.java
+ * BaseProxy.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -22,19 +22,20 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp.server;
+package com.sharparam.minecraft.ccsharp;
 
-import com.sharparam.minecraft.ccsharp.BaseProxy;
-import com.sharparam.minecraft.ccsharp.IProxy;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 /**
  * User: Sharparam
- * Date: 2013-06-17
- * Time: 19:41
+ * Date: 2013-06-18
+ * Time: 17:46
  */
-public class ServerProxy extends BaseProxy {
+public abstract class BaseProxy implements IProxy {
+    public static final String BLOCK_TEXTURE = "/mods/CCSharp/textures/blocks/cardReader.png";
+
     @Override
     public void registerRenderers() {
-        // Nothing, servers don't render graphics
+        MinecraftForgeClient.preloadTexture(BLOCK_TEXTURE);
     }
 }

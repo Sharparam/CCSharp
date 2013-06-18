@@ -1,5 +1,5 @@
 /*
- * ServerProxy.java
+ * CardReaderBlock.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -22,19 +22,25 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp.server;
+package com.sharparam.minecraft.ccsharp.blocks;
 
 import com.sharparam.minecraft.ccsharp.BaseProxy;
-import com.sharparam.minecraft.ccsharp.IProxy;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * User: Sharparam
- * Date: 2013-06-17
- * Time: 19:41
+ * Date: 2013-06-18
+ * Time: 17:39
  */
-public class ServerProxy extends BaseProxy {
-    @Override
-    public void registerRenderers() {
-        // Nothing, servers don't render graphics
+public class CardReaderBlock extends Block {
+    public CardReaderBlock(int id, int texture, Material material) {
+        super(id, texture, material);
+        setBlockName("cardReader");
+        setHardness(2.0f);
+        setStepSound(soundStoneFootstep);
+        setCreativeTab(CreativeTabs.tabBlock);
+        setTextureFile(BaseProxy.BLOCK_TEXTURE);
     }
 }
