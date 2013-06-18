@@ -32,7 +32,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
  * Time: 17:46
  */
 public abstract class BaseProxy implements IProxy {
-    public static final String BLOCK_TEXTURE = "/mods/CCSharp/textures/blocks/cardReader.png";
+    public static final String BLOCK_TEXTURE = "/mods/CCSharp/textures/blocks.png";
 
     @Override
     public void registerRenderers() {
