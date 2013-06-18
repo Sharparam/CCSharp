@@ -25,6 +25,7 @@
 package com.sharparam.minecraft.ccsharp;
 
 import com.sharparam.minecraft.ccsharp.blocks.CardReaderBlock;
+import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -33,11 +34,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.logging.Logger;
 
@@ -78,10 +76,9 @@ public class CCSharp {
 
     @Mod.Init
     public void init(FMLInitializationEvent event) {
-        cardReaderBlock = new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt(), 0, Material.rock);
-        LanguageRegistry.addName(cardReaderBlock, "Card Reader");
-        MinecraftForge.setBlockHarvestLevel(cardReaderBlock, "pickaxe", 1);
-        GameRegistry.registerBlock(cardReaderBlock, "cardReader");
+        cardReaderBlock = new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt());
+
+        CardReaderEntity.init();
 
         proxy.registerRenderers();
     }

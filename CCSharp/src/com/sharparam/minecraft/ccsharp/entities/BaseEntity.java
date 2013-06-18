@@ -1,5 +1,5 @@
 /*
- * CardReaderBlock.java
+ * BaseEntity.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -22,31 +22,21 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp.blocks;
+package com.sharparam.minecraft.ccsharp.entities;
 
-import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 /**
  * User: Sharparam
  * Date: 2013-06-18
- * Time: 17:39
+ * Time: 21:46
  */
-public class CardReaderBlock extends BaseBlock {
-    public CardReaderBlock(int id) {
-        super("cardReader", "Card Reader", id, 0, Material.rock);
-        setHardness(2.0f);
-        setStepSound(soundStoneFootstep);
-        setCreativeTab(CreativeTabs.tabBlock);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 1);
-    }
+public abstract class BaseEntity extends TileEntity {
+    protected String id;
+    protected String name;
 
-    @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return new CardReaderEntity();
+    public BaseEntity(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * CardReaderBlock.java
+ * BaseBlock.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -24,29 +24,23 @@
 
 package com.sharparam.minecraft.ccsharp.blocks;
 
-import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
+import com.sharparam.minecraft.ccsharp.BaseProxy;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 /**
  * User: Sharparam
- * Date: 2013-06-18
- * Time: 17:39
+ * Date: 2013-06-19
+ * Time: 00:26
  */
-public class CardReaderBlock extends BaseBlock {
-    public CardReaderBlock(int id) {
-        super("cardReader", "Card Reader", id, 0, Material.rock);
-        setHardness(2.0f);
-        setStepSound(soundStoneFootstep);
-        setCreativeTab(CreativeTabs.tabBlock);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 1);
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return new CardReaderEntity();
+public class BaseBlock extends Block {
+    public BaseBlock(String uid, String name, int id, int texture, Material material) {
+        super(id, texture, material);
+        setTextureFile(BaseProxy.BLOCK_TEXTURE);
+        setBlockName(uid);
+        LanguageRegistry.addName(this, name);
+        GameRegistry.registerBlock(this, uid);
     }
 }
