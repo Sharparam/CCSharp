@@ -36,6 +36,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.logging.Logger;
@@ -50,14 +51,15 @@ import java.util.logging.Logger;
 public class CCSharp {
     public static final String ID = "CCSharp";
     public static final String NAME = "CCSharp";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.2";
 
     @Mod.Instance(ID)
     public static CCSharp instance;
 
     private Logger log;
+    private Configuration config;
 
-    public final Block cardReaderBlock = new CardReaderBlock(500, 0, Material.rock);
+    public Block cardReaderBlock;
 
     @SidedProxy(
             clientSide = "com.sharparam.minecraft.ccsharp.client.ClientProxy",
@@ -68,10 +70,14 @@ public class CCSharp {
     public void preInit(FMLPreInitializationEvent event) {
         log = Logger.getLogger(ID);
         log.setParent(FMLLog.getLogger());
+        config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        config.getBlock("cardReader.id", 2050);
     }
 
     @Mod.Init
     public void init(FMLInitializationEvent event) {
+        cardReaderBlock = new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt(), 0, Material.rock);
         LanguageRegistry.addName(cardReaderBlock, "Card Reader");
         MinecraftForge.setBlockHarvestLevel(cardReaderBlock, "pickaxe", 1);
         GameRegistry.registerBlock(cardReaderBlock, "cardReader");
