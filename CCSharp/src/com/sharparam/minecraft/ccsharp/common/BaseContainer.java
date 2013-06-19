@@ -147,8 +147,13 @@ public class BaseContainer extends Container {
         stack = stackInSlot.copy();
         int invSize = entity.getSizeInventory();
 
+        // TODO: Find out if inventorySlots refers to inventory of entity
+        // or entire active inventory (entity + player)
+        // DEBUG (expected value 27 (entity) or 63 (entity + player)
+        CCSharp.instance.getLogger().info("inventorySlots.size() == " + inventorySlots.size());
+
         if ((slot < invSize &&
-                !mergeItemStack(stackInSlot, invSize, invSize, true)) ||
+                !mergeItemStack(stackInSlot, invSize, inventorySlots.size(), true)) ||
                 !mergeItemStack(stackInSlot, 0, invSize, false))
             return null;
 
