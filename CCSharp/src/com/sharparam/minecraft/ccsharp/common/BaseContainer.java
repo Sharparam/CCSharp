@@ -24,6 +24,7 @@
 
 package com.sharparam.minecraft.ccsharp.common;
 
+import com.sharparam.minecraft.ccsharp.CCSharp;
 import com.sharparam.minecraft.ccsharp.entities.InventoryEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -41,10 +42,62 @@ public class BaseContainer extends Container {
     private static final int PLAYER_INVENTORY_ROWS = 3;
     private static final int PLAYER_HOTBAR_COLS = 9;
 
+    private static final int DEFAULT_OFFSET_X = 8;
+    private static final int DEFAULT_OFFSET_Y = 7;
+    private static final int DEFAULT_SLOT_OFFSET_X = 18;
+    private static final int DEFAULT_SLOT_OFFSET_Y = 18;
+
+    private static final int DEFAULT_PLAYER_OFFSET_X = 8;
+    private static final int DEFAULT_PLAYER_OFFSET_Y = 84;
+    private static final int DEFAULT_PLAYER_SLOT_OFFSET_X = 18;
+    private static final int DEFAULT_PLAYER_SLOT_OFFSET_Y = 18;
+    private static final int DEFAULT_PLAYER_HOTBAR_OFFSET_X = 8;
+    private static final int DEFAULT_PLAYER_HOTBAR_OFFSET_Y = 142;
+    private static final int DEFAULT_PLAYER_HOTBAR_SLOT_OFFSET = 18;
+
     private final InventoryEntity entity;
 
+    private final int offsetX;
+    private final int offsetY;
+    private final int slotOffsetX;
+    private final int slotOffsetY;
+    private final int playerOffsetX;
+    private final int playerOffsetY;
+    private final int playerSlotOffsetX;
+    private final int playerSlotOffsetY;
+    private final int playerHotbarOffsetX;
+    private final int playerHotbarOffsetY;
+    private final int playerHotbarSlotOffset;
+
     public BaseContainer(InventoryPlayer playerInventory, InventoryEntity entity) {
+        this(playerInventory, entity, DEFAULT_OFFSET_X, DEFAULT_OFFSET_Y, DEFAULT_SLOT_OFFSET_X, DEFAULT_SLOT_OFFSET_Y);
+    }
+
+    public BaseContainer(InventoryPlayer playerInventory, InventoryEntity entity,
+                         int offsetX, int offsetY, int slotOffsetX, int slotOffsetY) {
+        this(playerInventory, entity,
+                offsetX, offsetY, slotOffsetX, slotOffsetY,
+                DEFAULT_PLAYER_OFFSET_X, DEFAULT_PLAYER_OFFSET_Y, DEFAULT_PLAYER_SLOT_OFFSET_X,
+                DEFAULT_PLAYER_SLOT_OFFSET_Y, DEFAULT_PLAYER_HOTBAR_OFFSET_X, DEFAULT_PLAYER_HOTBAR_OFFSET_Y,
+                DEFAULT_PLAYER_HOTBAR_SLOT_OFFSET);
+    }
+
+    public BaseContainer(InventoryPlayer playerInventory, InventoryEntity entity,
+                         int offsetX, int offsetY, int slotOffsetX, int slotOffsetY,
+                         int plrOffsetX, int plrOffsetY, int plrSlotOffsetX, int plrSlotOffsetY,
+                         int plrHotbarOffsetX, int plrHotbarOffsetY, int plrHotbarSlotOffset) {
         this.entity = entity;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.slotOffsetX = slotOffsetX;
+        this.slotOffsetY = slotOffsetY;
+        playerOffsetX = plrOffsetX;
+        playerOffsetY = plrOffsetY;
+        playerSlotOffsetX = plrSlotOffsetX;
+        playerSlotOffsetY = plrSlotOffsetY;
+        playerHotbarOffsetX = plrHotbarOffsetX;
+        playerHotbarOffsetY = plrHotbarOffsetY;
+        playerHotbarSlotOffset = plrHotbarSlotOffset;
 
         int cols = entity.getInventoryCols();
         int rows = entity.getInventoryRows();
@@ -52,7 +105,10 @@ public class BaseContainer extends Container {
         // Inventory of entity
         for (int row = 0; row < rows; row++)
             for (int col = 0; col < cols; col++)
-                addSlotToContainer(new Slot(entity, col + row * 3, 62 + col * 18, 17 + row * 18));
+                addSlotToContainer(new Slot(entity,
+                        col + row * cols, // Slot index
+                        this.offsetX + col * this.slotOffsetX,   // X position of slot
+                        this.offsetY + row * this.slotOffsetY)); // Y position of slot
 
         bindPlayerInventory(playerInventory);
     }
@@ -61,11 +117,17 @@ public class BaseContainer extends Container {
         // Player's inventory
         for (int row = 0; row < PLAYER_INVENTORY_ROWS; row++)
             for (int col = 0; col < PLAYER_INVENTORY_COLS; col++)
-                addSlotToContainer(new Slot(playerInventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                addSlotToContainer(new Slot(playerInventory,
+                        col + row * PLAYER_INVENTORY_COLS + PLAYER_HOTBAR_COLS,
+                        playerOffsetX + col * playerSlotOffsetX,
+                        playerOffsetY + row * playerSlotOffsetY));
 
         // Player's hotbar
         for (int col = 0; col < PLAYER_HOTBAR_COLS; col++)
-            addSlotToContainer(new Slot(playerInventory, col, 8 + col * 18, 142));
+            addSlotToContainer(new Slot(playerInventory,
+                    col,
+                    playerHotbarOffsetX + col * playerHotbarSlotOffset,
+                    playerHotbarOffsetY));
     }
 
     @Override
@@ -75,29 +137,37 @@ public class BaseContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-        ItemStack stack = null;
-        Slot slotObj = (Slot) inventorySlots.get(slot);
+        try {
+            ItemStack stack = null;
+            Slot slotObj = (Slot) inventorySlots.get(slot);
 
-        if (slotObj == null || !slotObj.getHasStack())
+            if (slotObj == null || !slotObj.getHasStack())
+                return stack;
+
+            ItemStack stackInSlot = slotObj.getStack();
+            stack = stackInSlot.copy();
+
+            if ((slot < 9 && !mergeItemStack(stackInSlot, 9, 45, true)) ||
+                    !mergeItemStack(stackInSlot, 0, 9, false))
+                return null;
+
+            if (stackInSlot.stackSize == 0)
+                slotObj.putStack(null);
+            else
+                slotObj.onSlotChanged();
+
+            if (stackInSlot.stackSize == stack.stackSize)
+                return null;
+
+            slotObj.onPickupFromSlot(player, stackInSlot);
+
             return stack;
+        } catch (Exception ex) {
+            CCSharp.instance.getLogger().severe("[BaseContainer.transferStackInSlot] EXCEPTION: " +
+                    ex.getClass().toString() + ": " + ex.getMessage() + "\nSTACK TRACE:\n");
+            ex.printStackTrace();
+        }
 
-        ItemStack stackInSlot = slotObj.getStack();
-        stack = stackInSlot.copy();
-
-        if ((slot < 9 && !mergeItemStack(stackInSlot, 9, 45, true)) ||
-                !mergeItemStack(stackInSlot, 0, 9, false))
-            return null;
-
-        if (stackInSlot.stackSize == 0)
-            slotObj.putStack(null);
-        else
-            slotObj.onSlotChanged();
-
-        if (stackInSlot.stackSize == stack.stackSize)
-            return null;
-
-        slotObj.onPickupFromSlot(player, stackInSlot);
-
-        return stack;
+        return null;
     }
 }

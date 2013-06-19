@@ -62,7 +62,7 @@ public class CCSharp {
             serverSide = "com.sharparam.minecraft.ccsharp.server.ServerProxy")
     public static IProxy proxy;
 
-    Logger getLogger() {
+    public Logger getLogger() {
         Logger logger = Logger.getLogger(ID);
         logger.setParent(FMLLog.getLogger());
         return logger;
