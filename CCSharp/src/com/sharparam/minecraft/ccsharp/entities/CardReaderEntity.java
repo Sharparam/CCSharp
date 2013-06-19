@@ -29,6 +29,8 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.HashMap;
+
 /**
  * User: Sharparam
  * Date: 2013-06-18
@@ -73,7 +75,9 @@ public class CardReaderEntity extends BaseEntity implements IPeripheral {
 
         switch (method) {
             case 0:
-                result = new Object[] {"Hello, World!"};
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("foo", "baz");
+                result = new Object[] {map};
                 break;
         }
 
