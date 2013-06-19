@@ -41,6 +41,16 @@ public class CardReaderGui extends GuiContainer {
     private static final int WIDTH = 176;
     private static final int HEIGHT = 168;
 
+    private static final int NAME_COLOR = 4210752;
+    private static final int NAME_OFFSET_X = 8;
+    private static final int NAME_OFFSET_Y = 6;
+    private static final String NAME = "Card Reader";
+
+    private static final int INV_COLOR = NAME_COLOR;
+    private static final int INV_OFFSET_X = NAME_OFFSET_X;
+    private static final int INV_OFFSET_Y = 74;
+    private static final String INV = "Inventory";
+
     public CardReaderGui(InventoryPlayer playerInventory, CardReaderEntity entity) {
         super(new BaseContainer(playerInventory, entity));
 
@@ -50,7 +60,8 @@ public class CardReaderGui extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-
+        fontRenderer.drawString(NAME, NAME_OFFSET_X, NAME_OFFSET_Y, NAME_COLOR);
+        fontRenderer.drawString(INV, INV_OFFSET_X, INV_OFFSET_Y, INV_COLOR);
     }
 
     @Override
