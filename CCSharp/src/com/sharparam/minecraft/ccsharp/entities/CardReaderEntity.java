@@ -87,7 +87,7 @@ public class CardReaderEntity extends BaseEntity implements IPeripheral {
 
     @Override
     public void attach(IComputerAccess computer) {
-
+        System.out.println("attach called on CardReaderEntity!");
     }
 
     @Override
