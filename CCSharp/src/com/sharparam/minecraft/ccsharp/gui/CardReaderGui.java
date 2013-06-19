@@ -36,10 +36,16 @@ import org.lwjgl.opengl.GL11;
  * Time: 20:00
  */
 public class CardReaderGui extends GuiContainer {
-    private static final String BACKGROUND_TEXTURE = "/mods/CCSharp/textures/gui/container_9x3.png";
+    private static final String BACKGROUND_TEXTURE = "/mods/CCSharp/textures/gui/cardReader.png";
+
+    private static final int WIDTH = 176;
+    private static final int HEIGHT = 168;
 
     public CardReaderGui(InventoryPlayer playerInventory, CardReaderEntity entity) {
         super(new BaseContainer(playerInventory, entity));
+
+        xSize = WIDTH;
+        ySize = HEIGHT;
     }
 
     @Override

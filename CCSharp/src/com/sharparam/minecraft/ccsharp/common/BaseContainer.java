@@ -43,16 +43,16 @@ public class BaseContainer extends Container {
     private static final int PLAYER_HOTBAR_COLS = 9;
 
     private static final int DEFAULT_OFFSET_X = 8;
-    private static final int DEFAULT_OFFSET_Y = 7;
+    private static final int DEFAULT_OFFSET_Y = 18;
     private static final int DEFAULT_SLOT_OFFSET_X = 18;
     private static final int DEFAULT_SLOT_OFFSET_Y = 18;
 
     private static final int DEFAULT_PLAYER_OFFSET_X = 8;
-    private static final int DEFAULT_PLAYER_OFFSET_Y = 84;
+    private static final int DEFAULT_PLAYER_OFFSET_Y = 86;
     private static final int DEFAULT_PLAYER_SLOT_OFFSET_X = 18;
     private static final int DEFAULT_PLAYER_SLOT_OFFSET_Y = 18;
     private static final int DEFAULT_PLAYER_HOTBAR_OFFSET_X = 8;
-    private static final int DEFAULT_PLAYER_HOTBAR_OFFSET_Y = 142;
+    private static final int DEFAULT_PLAYER_HOTBAR_OFFSET_Y = 144;
     private static final int DEFAULT_PLAYER_HOTBAR_SLOT_OFFSET = 18;
 
     private final InventoryEntity entity;
@@ -137,37 +137,31 @@ public class BaseContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-        try {
-            ItemStack stack = null;
-            Slot slotObj = (Slot) inventorySlots.get(slot);
+        ItemStack stack = null;
+        Slot slotObj = (Slot) inventorySlots.get(slot);
 
-            if (slotObj == null || !slotObj.getHasStack())
-                return stack;
-
-            ItemStack stackInSlot = slotObj.getStack();
-            stack = stackInSlot.copy();
-
-            if ((slot < 9 && !mergeItemStack(stackInSlot, 9, 45, true)) ||
-                    !mergeItemStack(stackInSlot, 0, 9, false))
-                return null;
-
-            if (stackInSlot.stackSize == 0)
-                slotObj.putStack(null);
-            else
-                slotObj.onSlotChanged();
-
-            if (stackInSlot.stackSize == stack.stackSize)
-                return null;
-
-            slotObj.onPickupFromSlot(player, stackInSlot);
-
+        if (slotObj == null || !slotObj.getHasStack())
             return stack;
-        } catch (Exception ex) {
-            CCSharp.instance.getLogger().severe("[BaseContainer.transferStackInSlot] EXCEPTION: " +
-                    ex.getClass().toString() + ": " + ex.getMessage() + "\nSTACK TRACE:\n");
-            ex.printStackTrace();
-        }
 
-        return null;
+        ItemStack stackInSlot = slotObj.getStack();
+        stack = stackInSlot.copy();
+        int invSize = entity.getSizeInventory();
+
+        if ((slot < invSize &&
+                !mergeItemStack(stackInSlot, invSize, player.inventory.getSizeInventory() + invSize, true)) ||
+                !mergeItemStack(stackInSlot, 0, invSize, false))
+            return null;
+
+        if (stackInSlot.stackSize == 0)
+            slotObj.putStack(null);
+        else
+            slotObj.onSlotChanged();
+
+        if (stackInSlot.stackSize == stack.stackSize)
+            return null;
+
+        slotObj.onPickupFromSlot(player, stackInSlot);
+
+        return stack;
     }
 }

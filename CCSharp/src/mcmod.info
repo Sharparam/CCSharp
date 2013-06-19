@@ -4,7 +4,7 @@
     "modid": "CCSharp",
     "name": "CCSharp",
     "description": "Adds various components to ComputerCraft.",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "mcversion": "1.4.7",
     "url": "",
     "updateUrl": "",
