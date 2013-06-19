@@ -148,7 +148,7 @@ public class BaseContainer extends Container {
         int invSize = entity.getSizeInventory();
 
         if ((slot < invSize &&
-                !mergeItemStack(stackInSlot, invSize, player.inventory.getSizeInventory() + invSize, true)) ||
+                !mergeItemStack(stackInSlot, invSize, invSize, true)) ||
                 !mergeItemStack(stackInSlot, 0, invSize, false))
             return null;
 
@@ -157,10 +157,10 @@ public class BaseContainer extends Container {
         else
             slotObj.onSlotChanged();
 
-        if (stackInSlot.stackSize == stack.stackSize)
-            return null;
-
-        slotObj.onPickupFromSlot(player, stackInSlot);
+//        if (stackInSlot.stackSize == stack.stackSize)
+//            return null;
+//
+//        slotObj.onPickupFromSlot(player, stackInSlot);
 
         return stack;
     }
