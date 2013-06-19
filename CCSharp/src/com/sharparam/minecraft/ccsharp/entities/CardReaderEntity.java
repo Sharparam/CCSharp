@@ -24,10 +24,10 @@
 
 package com.sharparam.minecraft.ccsharp.entities;
 
+import com.sharparam.minecraft.ccsharp.blocks.CardReaderBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
-import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.HashMap;
 
@@ -36,25 +36,18 @@ import java.util.HashMap;
  * Date: 2013-06-18
  * Time: 22:25
  */
-public class CardReaderEntity extends BaseEntity implements IPeripheral {
-    public static final String ID = "cardReader";
+public class CardReaderEntity extends InventoryEntity implements IPeripheral {
+    private static final int INVENTORY_COLS = 9;
+    private static final int INVENTORY_ROWS = 3;
+    // private static final int INVENTORY_SIZE = INVENTORY_COLS * INVENTORY_ROWS;
+    private static final int INVENTORY_STACK_SIZE = 1;
 
     public CardReaderEntity() {
-        super(ID, "Card Reader");
+        super(CardReaderBlock.UID, CardReaderBlock.NAME, INVENTORY_COLS, INVENTORY_ROWS, INVENTORY_STACK_SIZE);
     }
 
     public static void init() {
-        GameRegistry.registerTileEntity(CardReaderEntity.class, ID);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+        GameRegistry.registerTileEntity(CardReaderEntity.class, CardReaderBlock.UID);
     }
 
     @Override
@@ -91,7 +84,7 @@ public class CardReaderEntity extends BaseEntity implements IPeripheral {
 
     @Override
     public void attach(IComputerAccess computer) {
-        System.out.println("attach called on CardReaderEntity!");
+
     }
 
     @Override

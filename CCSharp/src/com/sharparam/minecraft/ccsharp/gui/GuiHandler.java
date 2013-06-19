@@ -1,5 +1,5 @@
 /*
- * CardReaderBlock.java
+ * GuiHandler.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -22,44 +22,33 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp.blocks;
+package com.sharparam.minecraft.ccsharp.gui;
 
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import cpw.mods.fml.common.network.IGuiHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 /**
  * User: Sharparam
- * Date: 2013-06-18
- * Time: 17:39
+ * Date: 2013-06-19
+ * Time: 20:07
  */
-public class CardReaderBlock extends ContainerBlock {
-    public static final String UID = "cardReader";
-    public static final String NAME = "Card Reader";
+public class GuiHandler implements IGuiHandler {
 
-    public CardReaderBlock(int id) {
-        super(UID, NAME, id, 0, Material.rock);
-        setHardness(2.0f);
-        setStepSound(soundStoneFootstep);
-        setCreativeTab(CreativeTabs.tabMisc);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 1);
+    @Override
+    public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        return null;
     }
 
     @Override
-    public boolean hasTileEntity(int metadata) {
-        return true;
-    }
+    public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        TileEntity entity = world.getBlockTileEntity(x, y, z);
 
-    @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return new CardReaderEntity();
-    }
+        if (entity instanceof CardReaderEntity)
+            return new CardReaderGui(player.inventory, (CardReaderEntity) entity);
 
-    @Override
-    public TileEntity createNewTileEntity(World world) {
-        return createTileEntity(world, 0);
+        return null;
     }
 }

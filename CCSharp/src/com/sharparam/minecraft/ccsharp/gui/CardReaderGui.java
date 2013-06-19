@@ -1,5 +1,5 @@
 /*
- * CardReaderBlock.java
+ * CardReaderGui.java
  *
  * Copyright © 2013 by Adam Hellberg <adam.hellberg@sharparam.com>
  *
@@ -22,44 +22,39 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp.blocks;
+package com.sharparam.minecraft.ccsharp.gui;
 
+import com.sharparam.minecraft.ccsharp.common.BaseContainer;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import org.lwjgl.opengl.GL11;
 
 /**
  * User: Sharparam
- * Date: 2013-06-18
- * Time: 17:39
+ * Date: 2013-06-19
+ * Time: 20:00
  */
-public class CardReaderBlock extends ContainerBlock {
-    public static final String UID = "cardReader";
-    public static final String NAME = "Card Reader";
+public class CardReaderGui extends GuiContainer {
+    private static final String BACKGROUND_TEXTURE = "/mods/CCSharp/textures/gui/container_9x3.png";
 
-    public CardReaderBlock(int id) {
-        super(UID, NAME, id, 0, Material.rock);
-        setHardness(2.0f);
-        setStepSound(soundStoneFootstep);
-        setCreativeTab(CreativeTabs.tabMisc);
-        MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 1);
+    public CardReaderGui(InventoryPlayer playerInventory, CardReaderEntity entity) {
+        super(new BaseContainer(playerInventory, entity));
     }
 
     @Override
-    public boolean hasTileEntity(int metadata) {
-        return true;
+    protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return new CardReaderEntity();
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world) {
-        return createTileEntity(world, 0);
+    protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+        int texture = mc.renderEngine.getTexture(BACKGROUND_TEXTURE);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        mc.renderEngine.bindTexture(texture);
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
+        drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
     }
 }

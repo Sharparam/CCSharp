@@ -26,6 +26,7 @@ package com.sharparam.minecraft.ccsharp;
 
 import com.sharparam.minecraft.ccsharp.blocks.CardReaderBlock;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
+import com.sharparam.minecraft.ccsharp.gui.GuiHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -33,7 +34,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import net.minecraft.block.Block;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraftforge.common.Configuration;
 
 import java.util.logging.Logger;
@@ -56,17 +57,20 @@ public class CCSharp {
     private Logger log;
     private Configuration config;
 
-    public Block cardReaderBlock;
-
     @SidedProxy(
             clientSide = "com.sharparam.minecraft.ccsharp.client.ClientProxy",
             serverSide = "com.sharparam.minecraft.ccsharp.server.ServerProxy")
     public static IProxy proxy;
 
+    Logger getLogger() {
+        Logger logger = Logger.getLogger(ID);
+        logger.setParent(FMLLog.getLogger());
+        return logger;
+    }
+
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent event) {
-        log = Logger.getLogger(ID);
-        log.setParent(FMLLog.getLogger());
+        log = getLogger();
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
         config.getBlock("cardReader.id", 2050);
@@ -75,15 +79,17 @@ public class CCSharp {
 
     @Mod.Init
     public void init(FMLInitializationEvent event) {
-        cardReaderBlock = new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt());
+        new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt());
 
         CardReaderEntity.init();
+
+        NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 
         proxy.registerRenderers();
     }
 
     @Mod.PostInit
     public void postInit(FMLPostInitializationEvent event) {
-
+        log.info(String.format("%s v%s loaded!", NAME, VERSION));
     }
 }

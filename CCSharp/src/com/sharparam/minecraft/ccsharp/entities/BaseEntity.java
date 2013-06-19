@@ -32,8 +32,8 @@ import net.minecraft.tileentity.TileEntity;
  * Time: 21:46
  */
 public abstract class BaseEntity extends TileEntity {
-    protected String id;
-    protected String name;
+    protected final String id;
+    protected final String name;
 
     public BaseEntity(String id, String name) {
         this.id = id;
