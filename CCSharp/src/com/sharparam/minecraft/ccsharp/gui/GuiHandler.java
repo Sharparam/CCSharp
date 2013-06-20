@@ -24,6 +24,7 @@
 
 package com.sharparam.minecraft.ccsharp.gui;
 
+import com.sharparam.minecraft.ccsharp.common.BaseContainer;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,6 +40,11 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        TileEntity entity = world.getBlockTileEntity(x, y, z);
+
+        if (entity instanceof CardReaderEntity)
+            return new BaseContainer(player.inventory, (CardReaderEntity) entity);
+
         return null;
     }
 
