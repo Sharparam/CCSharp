@@ -28,6 +28,7 @@ import com.sharparam.minecraft.ccsharp.common.BaseContainer;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -49,7 +50,6 @@ public class CardReaderGui extends GuiContainer {
     private static final int INV_COLOR = NAME_COLOR;
     private static final int INV_OFFSET_X = NAME_OFFSET_X;
     private static final int INV_OFFSET_Y = 74;
-    private static final String INV = "Inventory";
 
     public CardReaderGui(InventoryPlayer playerInventory, CardReaderEntity entity) {
         super(new BaseContainer(playerInventory, entity));
@@ -61,7 +61,7 @@ public class CardReaderGui extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
         fontRenderer.drawString(NAME, NAME_OFFSET_X, NAME_OFFSET_Y, NAME_COLOR);
-        fontRenderer.drawString(INV, INV_OFFSET_X, INV_OFFSET_Y, INV_COLOR);
+        fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), INV_OFFSET_X, INV_OFFSET_Y, INV_COLOR);
     }
 
     @Override
