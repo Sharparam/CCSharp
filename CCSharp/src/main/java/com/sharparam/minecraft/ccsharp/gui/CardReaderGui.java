@@ -26,6 +26,8 @@ package com.sharparam.minecraft.ccsharp.gui;
 
 import com.sharparam.minecraft.ccsharp.common.BaseContainer;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
+import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
@@ -66,9 +68,10 @@ public class CardReaderGui extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-        int texture = mc.renderEngine.getTexture(BACKGROUND_TEXTURE);
+        Minecraft client = FMLClientHandler.instance().getClient();
+        int texture = client.renderEngine.getTexture(BACKGROUND_TEXTURE);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        mc.renderEngine.bindTexture(texture);
+        client.renderEngine.bindTexture(texture);
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

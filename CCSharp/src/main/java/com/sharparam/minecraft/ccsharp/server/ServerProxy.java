@@ -25,7 +25,6 @@
 package com.sharparam.minecraft.ccsharp.server;
 
 import com.sharparam.minecraft.ccsharp.BaseProxy;
-import com.sharparam.minecraft.ccsharp.IProxy;
 
 /**
  * User: Sharparam
