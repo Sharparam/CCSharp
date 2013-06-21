@@ -135,6 +135,43 @@ public class BaseContainer extends Container {
     }
 
     @Override
+    public boolean mergeItemStack(ItemStack stack, int begin, int end, boolean backwards) {
+        int i = backwards ? end - 1 : begin;
+        int increment = backwards ? -1 : 1;
+        boolean flag = false;
+
+        while (stack.stackSize > 0 && i >= begin && i < end) {
+            Slot slot = this.getSlot(i);
+            ItemStack slotStack = slot.getStack();
+            int slotStackLimit = i < entity.getSizeInventory() ? entity.getInventoryStackLimit() : 64;
+            int totalLimit = slotStackLimit < stack.getMaxStackSize() ? slotStackLimit : stack.getMaxStackSize();
+
+            if (slotStack == null) {
+                int transfer = totalLimit < stack.stackSize ? totalLimit : stack.stackSize;
+                ItemStack stackToPut = stack.copy();
+                stackToPut.stackSize = transfer;
+                slot.putStack(stackToPut);
+                slot.onSlotChanged();
+                stack.stackSize -= transfer;
+                flag = true;
+            } else if (slotStack.itemID == stack.itemID &&
+                    (!stack.getHasSubtypes() || stack.getItemDamage() == slotStack.getItemDamage()) &&
+                    ItemStack.areItemStackTagsEqual(stack, slotStack)) {
+                int maxTransfer = totalLimit - slotStack.stackSize;
+                int transfer = maxTransfer > stack.stackSize ? stack.stackSize : maxTransfer;
+                slotStack.stackSize += transfer;
+                slot.onSlotChanged();
+                stack.stackSize -= transfer;
+                flag = true;
+            }
+
+            i += increment;
+        }
+
+        return flag;
+    }
+
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
         ItemStack stack = null;
         Slot slotObj = (Slot) inventorySlots.get(slot);
@@ -146,20 +183,25 @@ public class BaseContainer extends Container {
         stack = stackInSlot.copy();
         int invSize = entity.getSizeInventory();
 
-        if ((slot < invSize &&
-                !mergeItemStack(stackInSlot, invSize, inventorySlots.size(), true)) ||
-                !mergeItemStack(stackInSlot, 0, invSize, false))
-            return null;
+        if (slot < invSize) {
+            if (mergeItemStack(stackInSlot, invSize, inventorySlots.size(), true))
+                slotObj.onSlotChange(stackInSlot, stack);
+            else
+                return null;
+        } else {
+            if (!mergeItemStack(stackInSlot, 0, invSize, false))
+                return null;
+        }
 
         if (stackInSlot.stackSize == 0)
             slotObj.putStack(null);
         else
             slotObj.onSlotChanged();
 
-//        if (stackInSlot.stackSize == stack.stackSize)
-//            return null;
-//
-//        slotObj.onPickupFromSlot(player, stackInSlot);
+        if (stackInSlot.stackSize == stack.stackSize)
+            return null;
+
+        slotObj.onPickupFromSlot(player, stackInSlot);
 
         return stack;
     }
