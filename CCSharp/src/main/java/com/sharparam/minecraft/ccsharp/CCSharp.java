@@ -24,6 +24,7 @@
 
 package com.sharparam.minecraft.ccsharp;
 
+import com.sharparam.minecraft.ccsharp.api.IProxy;
 import com.sharparam.minecraft.ccsharp.blocks.CardReaderBlock;
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
 import com.sharparam.minecraft.ccsharp.gui.GuiHandler;

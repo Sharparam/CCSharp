@@ -24,6 +24,7 @@
 
 package com.sharparam.minecraft.ccsharp;
 
+import com.sharparam.minecraft.ccsharp.api.IProxy;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 /**

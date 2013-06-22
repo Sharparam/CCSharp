@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.sharparam.minecraft.ccsharp;
+package com.sharparam.minecraft.ccsharp.api;
 
 /**
  * User: Sharparam
