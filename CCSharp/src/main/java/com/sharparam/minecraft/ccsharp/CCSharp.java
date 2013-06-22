@@ -73,13 +73,13 @@ public class CCSharp {
         log = getLogger();
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-        config.getBlock("cardReader.id", 2050);
+        config.getBlock("cardReader.id", CardReaderBlock.DEFAULT_ID, "Card Reader block ID");
         config.save();
     }
 
     @Mod.Init
     public void init(FMLInitializationEvent event) {
-        new CardReaderBlock(config.getBlock("cardReader.id", 2050).getInt());
+        new CardReaderBlock(config.getBlock("cardReader.id", CardReaderBlock.DEFAULT_ID).getInt());
 
         CardReaderEntity.init();
 

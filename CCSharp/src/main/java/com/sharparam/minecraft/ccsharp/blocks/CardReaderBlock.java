@@ -39,6 +39,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class CardReaderBlock extends ContainerBlock {
     public static final String UID = "cardReader";
     public static final String NAME = "Card Reader";
+    public static final int DEFAULT_ID = 2050;
 
     public CardReaderBlock(int id) {
         super(UID, NAME, id, 0, Material.rock);
