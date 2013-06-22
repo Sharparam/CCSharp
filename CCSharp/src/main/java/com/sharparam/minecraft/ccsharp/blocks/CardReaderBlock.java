@@ -25,6 +25,7 @@
 package com.sharparam.minecraft.ccsharp.blocks;
 
 import com.sharparam.minecraft.ccsharp.entities.CardReaderEntity;
+import com.sharparam.minecraft.ccsharp.utils.TextureHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -42,7 +43,7 @@ public class CardReaderBlock extends ContainerBlock {
     public static final int DEFAULT_ID = 2050;
 
     public CardReaderBlock(int id) {
-        super(UID, NAME, id, 0, Material.rock);
+        super(UID, NAME, id, TextureHelper.getBlockTextureIndex(0), Material.rock);
         setHardness(2.0f);
         setStepSound(soundStoneFootstep);
         setCreativeTab(CreativeTabs.tabMisc);
