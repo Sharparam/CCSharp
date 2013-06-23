@@ -3,9 +3,10 @@ package com.sharparam.minecraft.ccsharp.utils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import shedar.mods.ic2.nuclearcontrol.api.CardState;
 import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
 import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
-import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -19,15 +20,16 @@ import java.util.regex.Pattern;
 public final class CardHelper {
     private static final int MAX_NUM_RANGED_UPGRADES = 1024;
 
-    private static final class CardWrapper extends CardWrapperImpl {
+    private static final class CardWrapper implements ICardWrapper {
         private static final Pattern ENERGY_PATTERN = Pattern.compile("^_(\\d+)energy$");
         private static final Pattern MAX_ENERGY_PATTERN = Pattern.compile("^_(\\d+)maxStorage$");
 
+        private String title;
+        private CardState state;
+
         private final HashMap<String, Object> cardData;
 
-        public CardWrapper(ItemStack card) {
-            super(card);
-
+        public CardWrapper() {
             cardData = new HashMap<String, Object>();
         }
 
@@ -104,8 +106,57 @@ public final class CardHelper {
         }
 
         @Override
+        public Boolean getBoolean(String s) {
+            return null;
+        }
+
+        @Override
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public CardState getState() {
+            return state;
+        }
+
+        @Override
+        public void setState(CardState state) {
+            this.state = state;
+        }
+
+        @Override
+        public ItemStack getItemStack() {
+            return null;
+        }
+
+        @Override
+        public boolean hasField(String key) {
+            return cardData.containsKey(key);
+        }
+
+        @Override
+        public void setTarget(int i, int i2, int i3) {
+        }
+
+        @Override
+        public ChunkCoordinates getTarget() {
+            return null;
+        }
+
+        @Override
         public void setInt(String name, Integer value) {
             put(name, value);
+        }
+
+        @Override
+        public Integer getInt(String s) {
+            return null;
         }
 
         @Override
@@ -114,8 +165,18 @@ public final class CardHelper {
         }
 
         @Override
+        public Long getLong(String s) {
+            return null;
+        }
+
+        @Override
         public void setString(String name, String value) {
             put(name, value);
+        }
+
+        @Override
+        public String getString(String s) {
+            return null;
         }
     }
 
@@ -123,7 +184,7 @@ public final class CardHelper {
         HashMap<String, Object> result = null;
         Item item = stack == null ? null : stack.getItem();
         if (item != null && item instanceof IPanelDataSource) {
-            ICardWrapper wrapper = new CardWrapper(stack);
+            ICardWrapper wrapper = new CardWrapper();
             IPanelDataSource dataSource = (IPanelDataSource) item;
             result = new HashMap<String, Object>();
             result.put("UUID", dataSource.getCardType().toString());
