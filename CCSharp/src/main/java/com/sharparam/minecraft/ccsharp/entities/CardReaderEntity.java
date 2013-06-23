@@ -29,16 +29,9 @@ import com.sharparam.minecraft.ccsharp.utils.CardHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import shedar.mods.ic2.nuclearcontrol.api.CardState;
-import shedar.mods.ic2.nuclearcontrol.api.ICardWrapper;
-import shedar.mods.ic2.nuclearcontrol.api.IPanelDataSource;
-import shedar.mods.ic2.nuclearcontrol.panel.CardWrapperImpl;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * User: Sharparam
@@ -46,14 +39,10 @@ import java.util.UUID;
  * Time: 22:25
  */
 public class CardReaderEntity extends InventoryEntity implements IPeripheral {
-
-
     private static final int INVENTORY_COLS = 9;
     private static final int INVENTORY_ROWS = 3;
     // private static final int INVENTORY_SIZE = INVENTORY_COLS * INVENTORY_ROWS;
     private static final int INVENTORY_STACK_SIZE = 1;
-
-    private static final int MAX_NUM_RANGED_UPGRADES = 1024;
 
     public CardReaderEntity() {
         super(CardReaderBlock.UID, CardReaderBlock.NAME, INVENTORY_COLS, INVENTORY_ROWS, INVENTORY_STACK_SIZE);
