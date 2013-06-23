@@ -41,13 +41,19 @@ public class CardReaderBlock extends ContainerBlock {
     public static final String UID = "cardReader";
     public static final String NAME = "Card Reader";
     public static final int DEFAULT_ID = 2050;
+    public static final int TEXTURE_INDEX = 0;
 
     public CardReaderBlock(int id) {
-        super(UID, NAME, id, TextureHelper.getBlockTextureIndex(0), Material.rock);
+        super(UID, NAME, id, TextureHelper.getBlockTextureIndex(TEXTURE_INDEX), Material.rock);
         setHardness(2.0f);
         setStepSound(soundStoneFootstep);
         setCreativeTab(CreativeTabs.tabMisc);
         MinecraftForge.setBlockHarvestLevel(this, "pickaxe", 1);
+    }
+
+    @Override
+    public int getBlockTextureFromSide(int side) {
+        return side <= 1 ? TEXTURE_INDEX + 1 : TEXTURE_INDEX;
     }
 
     @Override
